@@ -42,14 +42,14 @@ Recommends:     logrotate
 # gamin gives problems with lighttpd, so better conflict with it for now
 Conflicts:      gamin
 PreReq:         PolicyKit, PackageKit, rubygem-rake, rubygem-sqlite3
-PreReq:         rubygem-rails-2_3 >= 2.3.4
+PreReq:         rubygem-rails-2_3 >= 2.3.8
 PreReq:         rubygem-rpam, rubygem-polkit, rubygem-gettext_rails
 PreReq:         yast2-runlevel
 License:	LGPL v2.1 only
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
-Version:        0.2.5
+Version:        0.2.6
 Release:        0
 Summary:        WebYaST - base components for rest service
 Source:         www.tar.bz2
@@ -71,7 +71,7 @@ BuildRequires:  ruby, pkg-config, rubygem-mocha
 BuildRequires:  rubygem-webyast-rake-tasks, rubygem-restility
 BuildRequires:  yast2-core, yast2-dbus-server, ruby-dbus, sqlite, dbus-1
 BuildRequires:  PolicyKit, PackageKit, rubygem-sqlite3
-BuildRequires:  rubygem-rails-2_3 >= 2.3.4
+BuildRequires:  rubygem-rails-2_3 >= 2.3.8
 BuildRequires:  rubygem-rpam, rubygem-polkit
 # the testsuite is run during build
 BuildRequires:	rubygem-test-unit rubygem-mocha
