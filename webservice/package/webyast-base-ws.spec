@@ -34,6 +34,8 @@ Requires:       sysvinit > 2.86-195.3.1
 PreReq:         lighttpd > 1.4.20-2.29.1
 %endif
 
+Provides:       webyast-language-ws  = 0.1.0
+Obsoletes:      webyast-language-ws <= 0.1.0
 Requires:	lighttpd-mod_magnet, ruby-fcgi, ruby-dbus, sqlite, syslog-ng
 Requires:       rubygem-webyast-rake-tasks, rubygem-http_accept_language
 Requires:	yast2-dbus-server
@@ -49,7 +51,7 @@ License:	LGPL v2.1 only
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
-Version:        0.2.6
+Version:        0.2.7
 Release:        0
 Summary:        WebYaST - base components for rest service
 Source:         www.tar.bz2
