@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Nov 25 14:14:10 UTC 2010 - lslezak@suse.cz
+
+- fixed loosing permissions after upgrade from WebYaST-1.0
+  (bnc#645310)
+- 0.2.1
+
+-------------------------------------------------------------------
 Mon Aug 23 14:31:21 UTC 2010 - jreidinger@novell.com
 
 - add url to spec file (bnc#625537)
