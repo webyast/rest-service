@@ -114,7 +114,7 @@ mkdir -p $RPM_BUILD_ROOT/etc/polkit-1/localauthority/10-vendor.d
 install -m 0644 %SOURCE4 $RPM_BUILD_ROOT/etc/polkit-1/localauthority/10-vendor.d/
 %endif
 
-mkdir -p $RPM_BUILD_ROOT/var/lib/yastws/software
+mkdir -p $RPM_BUILD_ROOT/var/lib/yastws/software/licenses/accepted
 
 %clean
 rm -rf $RPM_BUILD_ROOT

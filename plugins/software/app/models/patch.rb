@@ -27,6 +27,8 @@ class Patch < Resolvable
   attr_accessor :messages
 
   MESSAGES_FILE = File.join(Paths::VAR,"software","patch_installion_messages")
+  LICENSES_DIR = File.join(Paths::VAR,"software","licenses")
+  ACCEPTED_LICENSES_DIR = File.join(Paths::VAR,"software","licenses","accepted")
 
   private
 
@@ -274,6 +276,15 @@ class Patch < Resolvable
       ok = false
       dbusloop.quit
     end
+    proxy.on_signal("EulaRequired") do |eula_id,package_id,vendor_name,license_text|
+      #FIXME check if user already agree with license
+      if handle_eula(eula_id,license_text)
+        transaction_iface.AcceptEula(eula_id)
+      else
+        ok = false
+        dbusloop.quit
+      end
+    end
     if transaction_iface.methods["UpdatePackages"] && # catch mocking
        transaction_iface.methods["UpdatePackages"].params.size == 2 &&
        transaction_iface.methods["UpdatePackages"].params[0][0] == "only_trusted"
@@ -293,6 +304,7 @@ class Patch < Resolvable
     # bnc#617350, remove signals
     proxy.on_signal "Error"
     proxy.on_signal "Package"
+    proxy.on_signal "EulaRequired"
     if block_given?
       signal_list.each { |signal|
         proxy.on_signal signal.to_s
@@ -392,5 +404,15 @@ private
     end
 
     result
+  end
+
+  def self.handle_eula(eula_id,license_text)
+  #TODO check if user already accept exactly same license
+    license_file = File.join(LICENSES_DIR,eula_id)
+    File.open(license_file,"w") { |f| f.write license_text }
+    while File.exists?(license_file)
+      sleep 1 #prevent turning server into radiator
+    end
+    return File.exists?(File.join(ACCEPTED_LICENSES_DIR,eula_id)) #eula is in accepted dir
   end
 end
