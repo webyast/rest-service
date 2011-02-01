@@ -33,7 +33,7 @@ class PatchesController < ApplicationController
    # cache 'index' method result, but don't cache message requests
    # (caching messages would complicate the cache invalidation code
    #  and it's fast anyway so it is actually not important)
-   caches_action :index, :unless => Proc.new { |ctrl| ctrl.params['messages'] }
+   caches_action :index, :unless => Proc.new { |ctrl| ctrl.params['messages'].present? || ctrl.params["license"].present? }
 
   private
 
@@ -132,6 +132,13 @@ class PatchesController < ApplicationController
       end
       return
     end
+    if params[:license].present?
+      respond_to do |format|
+        format.xml { render  :xml => Patch.license.to_xml( :root => "licenses", :dasherize => false ) }
+        format.json { render :json => Patch.license.to_json( :root => "licenses", :dasherize => false ) }
+      end
+      return
+    end
 		check_running_install
     # note: permission check was performed in :before_filter
     bgr = params['background']
@@ -179,6 +186,11 @@ class PatchesController < ApplicationController
   # POST /patch_updates/
   def create
     permission_check "org.opensuse.yast.system.patches.install"
+    if params[:patches][:accept_license].present? || params[:patches][:reject_license].present?
+      params[:patches][:accept_license].present? ? Patch.accept_license : Patch.reject_license
+      index
+      return
+    end
     @patch_update = Patch.find(params[:patches][:resolvable_id].to_s)
 
     #Patch for Bug 560701 - [build 24.1] webYaST appears to crash after installing webclient patch

@@ -44,6 +44,14 @@ class Patch < Resolvable
 
   public
 
+  def self.accept_license
+    decide_license true
+  end
+
+  def self.reject_license
+    decide_license false
+  end
+
   def to_xml( options = {} )
     super :patch_update, options, @messages
   end
@@ -251,6 +259,18 @@ class Patch < Resolvable
     end
   end
 
+  def self.license
+    Dir.glob(File.join(LICENSES_DIR,"*")).reduce([]) do |res,f|
+      if File.file? f
+        res << ({
+            :name => File.basename(f),
+            :text => File.read(f)
+            })
+      end
+      res
+    end
+  end
+
   def self.do_install(pk_id, signal_list = [], &block)
     ok = true
     transaction_iface, packagekit_iface = PackageKit.connect
@@ -315,6 +335,15 @@ class Patch < Resolvable
   end
 
 private
+
+  def self.decide_license(accept)
+    #we don't know eula id, but as it block package kit, then there is only one license file to decide
+    if accept
+      `find #{LICENSES_DIR} -type f -exec mv {} #{ACCEPTED_LICENSES_DIR} \\;`
+    else
+      `find #{LICENSES_DIR} -type f -delete`
+    end
+  end
 
   def self.bgid(what)
     "packagekit_install_#{what}"
