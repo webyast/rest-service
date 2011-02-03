@@ -71,6 +71,7 @@ class PatchesController < ApplicationController
 
           # check for exception
           if ret.is_a? StandardError
+            Rails.logger.warn "Patch installation raise exception #{ret.message} backtrace #{ret.backtrace.try(:join,"\n")}"
             raise ret
           end
 

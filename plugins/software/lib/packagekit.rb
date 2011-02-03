@@ -168,6 +168,7 @@ class PackageKit
 
       # set the custom signal handler if set
       proxy.on_signal(signal.to_s, &block) if !signal.blank? && block_given?
+      proxy.on_signal("Error") { dbusloop.quit }
 
       if bg_stat
         proxy.on_signal("StatusChanged") do |s|
@@ -203,6 +204,7 @@ class PackageKit
         proxy.on_signal("StatusChanged")
       end
       proxy.on_signal(signal.to_s) if !signal.blank? && block_given?
+      proxy.on_signal("Error")
 
       packagekit_iface.SuggestDaemonQuit
 
