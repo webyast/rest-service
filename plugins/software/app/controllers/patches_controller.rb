@@ -90,6 +90,12 @@ class PatchesController < ApplicationController
     return done
   end
 
+  def check_license_required
+    if PatchesState.read[:message_id] == "PATCH_EULA"
+      raise LicenseRequiredException.new
+    end
+  end
+
 	def check_running_install
     running = 0
     max_progress = nil
@@ -140,6 +146,7 @@ class PatchesController < ApplicationController
       end
       return
     end
+    check_license_required
 		check_running_install
     # note: permission check was performed in :before_filter
     bgr = params['background']
