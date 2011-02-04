@@ -21,7 +21,7 @@
 
 class LicenseRequiredException < BackendException
 	def initialize
-    super "License required to continue with installation"
+    super "License confirm required to continue with installation. Please go to patch module, where you can decide about license confirmation."
 	end
 
 	def to_xml
@@ -30,7 +30,7 @@ class LicenseRequiredException < BackendException
 
     xml.error do
       xml.type "PACKAGEKIT_LICENSE"
-      xml.description @message
+      xml.description message
       xml.bug false, :type => "boolean"
     end
 	end
