@@ -300,7 +300,7 @@ class Patch < Resolvable
       #FIXME check if user already agree with license
       if handle_eula(eula_id,license_text)
         PackageKit.transact :AcceptEula, [eula_id]
-        PackageKit.transact :UpdatePackages, [[package_id]]
+        PackageKit.transact :UpdatePackages, [[pk_id]]
         dbusloop.quit
       else
         ok = false
