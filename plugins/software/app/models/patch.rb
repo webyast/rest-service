@@ -444,6 +444,9 @@ private
     while File.exists?(license_file)
       sleep 1 #prevent turning server into radiator
     end
-    return File.exists?(File.join(ACCEPTED_LICENSES_DIR,eula_id)) #eula is in accepted dir
+    accepted_path = File.join(ACCEPTED_LICENSES_DIR,eula_id)
+    ret = File.exists?(accepted_path) #eula is in accepted dir
+    File.delete accepted_path if ret #require new confirmation every patch same as zypper
+    ret
   end
 end
