@@ -319,7 +319,7 @@ class Patch < Resolvable
     end
 
     dbusloop.run
-    packagekit_iface.SuggestDaemonQuit
+    packagekit_iface.SuggestDaemonQuit {} #async call to ignore errors as it is just suggestion
 
     ok &= error.blank?
 
