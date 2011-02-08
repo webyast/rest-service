@@ -128,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # grant the permission for the webservice user
 polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.packagekit.system-sources-configure >& /dev/null || true
+polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.packagekit.package-eula-accept >& /dev/null || true
 
 %files
 %defattr(-,root,root)
