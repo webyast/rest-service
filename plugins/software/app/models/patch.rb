@@ -299,8 +299,8 @@ class Patch < Resolvable
     proxy.on_signal("EulaRequired") do |eula_id,package_id,vendor_name,license_text|
       #FIXME check if user already agree with license
       if handle_eula(eula_id,license_text)
-        PackageKit.transact :AcceptEula, [eula_id]
-        PackageKit.transact :UpdatePackages, [[pk_id]]
+        PackageKit.transact :AcceptEula, [eula_id],nil,nil, true
+        PackageKit.transact :UpdatePackages, [[pk_id]], nil, nil, false
         dbusloop.quit
       else
         ok = false

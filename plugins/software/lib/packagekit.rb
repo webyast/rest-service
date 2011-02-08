@@ -158,7 +158,8 @@ class PackageKit
   # bg_stat: BackgroundStatus object for reporting progress (optional)
   # block: block to run on signal (optional)
   #
-  def self.transact(method, args, signal = nil, bg_stat = nil, &block)
+  # FIXME clean up method arguments..e.g. use hash map and also list of signals and handlers would be nice
+  def self.transact(method, args, signal = nil, bg_stat = nil, keep_running = false, &block)
     begin
       transaction_iface, packagekit_iface = self.connect
     
@@ -206,7 +207,7 @@ class PackageKit
       proxy.on_signal(signal.to_s) if !signal.blank? && block_given?
       proxy.on_signal("Error")
 
-      packagekit_iface.SuggestDaemonQuit
+      packagekit_iface.SuggestDaemonQuit unless keep_running
 
       raise PackageKitError.new(error) unless error.blank?
 
