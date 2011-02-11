@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Fri Feb 11 09:42:29 UTC 2011 - jreidinger@novell.com
+
+- fix installing patches which require EULA confirmation
+  (bnc#669470)
+- 0.2.5
+
+-------------------------------------------------------------------
 Wed Sep 22 15:38:36 UTC 2010 - lslezak@suse.cz
 
 - fixed saving patch messages in background process (bnc#639144),

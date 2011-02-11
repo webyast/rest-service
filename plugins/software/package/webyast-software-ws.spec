@@ -19,7 +19,7 @@ Obsoletes:      yast2-webservice-patches < %{version}
 # for testing
 BuildRequires:  ruby-dbus >= 0.3.1
 
-PreReq:         yast2-webservice
+PreReq:         yast2-webservice >= 0.2.7
 # ruby-dbus is required by webyast-base-ws already
 # but here we use a recent feature of on_signal
 Requires:       ruby-dbus >= 0.3.1
@@ -40,7 +40,7 @@ License:	GPL v2 only
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
-Version:        0.2.4
+Version:        0.2.5
 Release:        0
 Summary:        WebYaST - software management service
 Source:         www.tar.bz2
