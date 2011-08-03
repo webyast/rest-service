@@ -19,7 +19,7 @@ License:        GPL-2.0
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
-Version:        0.2.5
+Version:        0.2.6
 Release:        0
 Summary:        WebYaST - Registration service
 Source:         www.tar.bz2
@@ -112,7 +112,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{plugin_dir}
 %dir %{plugin_dir}/doc
 
-%dir %{plugin_dir}/locale
+%{plugin_dir}/locale
 %{plugin_dir}/README
 %{plugin_dir}/Rakefile
 %{plugin_dir}/init.rb
