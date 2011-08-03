@@ -19,7 +19,7 @@ License:        GPL-2.0
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
-Version:        0.2.11
+Version:        0.2.12
 Release:        0
 Summary:        WebYaST - system status service
 Source:         www.tar.bz2
@@ -159,7 +159,7 @@ rccollectd try-restart
 %dir %{webyast_ws_dir}/vendor/plugins
 %dir %{plugin_dir}
 %dir %{plugin_dir}/doc
-%dir %{plugin_dir}/locale
+%{plugin_dir}/locale
 %{plugin_dir}/app
 %{plugin_dir}/doc/README_FOR_APP
 %{plugin_dir}/doc/logs.yml
