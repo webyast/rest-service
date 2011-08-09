@@ -130,7 +130,7 @@ class Patch < Resolvable
       if ["system", "application", "session"].include? type
         # RequireRestart received
         type = "notice"
-        details = _("Please reboot your system.")
+        details = "Please reboot your system."
       end
       @messages << {:kind => type, :details => details}
       begin
