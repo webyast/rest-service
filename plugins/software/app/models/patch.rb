@@ -20,6 +20,7 @@
 #++
 
 require 'resolvable'
+require 'gettext'
 
 # Model for patches available via package kit
 class Patch < Resolvable
