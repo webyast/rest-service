@@ -25,7 +25,7 @@ class ExampleController < ApplicationController
   before_filter :login_required
 
   def show
-    permission_check "org.example.plugin.read"
+    permission_check "org.opensuse.yast.example.read"
     example = Example.find
 
     respond_to do |format|
@@ -35,7 +35,7 @@ class ExampleController < ApplicationController
   end
    
   def update
-    permission_check "org.example.plugin.write"
+    permission_check "org.opensuse.yast.example.write"
     root = params["example"]
     if root == nil || root == {} 
       raise InvalidParameters.new :example => "Missing"

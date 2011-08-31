@@ -25,7 +25,7 @@ Source:         www.tar.bz2
 Source1:        example.service.conf
 Source2:        exampleService.rb
 Source3:        example.service.service
-Source4:        org.example.plugin.policy
+Source4:        org.opensuse.yast.example.policy
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  rubygem-yast2-webservice-tasks rubygem-restility
@@ -119,7 +119,7 @@ polkit-auth --user %{webyast_ws_user} --grant org.example.plugin.read org.exampl
 %{plugin_dir}/app
 %{plugin_dir}/config
 %attr(744,root,root) /usr/local/sbin/exampleService.rb
-%attr(644,root,root) /usr/share/PolicyKit/policy/org.example.plugin.policy
+%attr(644,root,root) /usr/share/PolicyKit/policy/org.opensuse.yast.example.policy
 %attr(644,root,root) /etc/dbus-1/system.d/example.service.conf
 %attr(644,root,root) /usr/share/dbus-1/system-services/example.service.service
 %doc COPYING
