@@ -100,8 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 # granting all permissions for the webservice user and root
 #TODO don't silently fail
-polkit-auth --user root --grant org.example.plugin.read org.example.plugin.write > /dev/null || :
-polkit-auth --user %{webyast_ws_user} --grant org.example.plugin.read org.example.plugin.write > /dev/null || :
+polkit-auth --user root --grant org.opensuse.yast.example.read org.opensuse.yast.example.write > /dev/null || :
 
 %postun
 
