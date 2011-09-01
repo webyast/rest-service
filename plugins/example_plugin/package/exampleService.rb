@@ -18,7 +18,7 @@ class ExampleService < DBus::Object
       begin
         File.open(FILENAME, "r") {|f| out = f.read }
       rescue
-        out = "NOTHING"
+        out = "<empty>"
       end
       [out] #return value must be array, as DBus allow multiple return value, so it expect array of return values
     end

@@ -25,7 +25,7 @@ Source:         www.tar.bz2
 Source1:        example.service.conf
 Source2:        exampleService.rb
 Source3:        example.service.service
-Source4:        org.opensuse.yast.example.policy
+Source4:        org.opensuse.yast.system.example.policy
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  rubygem-yast2-webservice-tasks rubygem-restility
@@ -59,14 +59,6 @@ needed at runtime.
 %setup -q -n www
 
 %build
-# build restdoc documentation
-#mkdir -p public/ntp/restdoc
-#%webyast_ws_restdoc
-
-# do not package restdoc sources
-rm -rf restdoc
-#do not package development documentation
-rm -rf doc
 
 %check
 # run the testsuite
@@ -99,8 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 # granting all permissions for the webservice user and root
-#TODO don't silently fail
-polkit-auth --user root --grant org.opensuse.yast.example.read org.opensuse.yast.example.write > /dev/null || :
+polkit-auth --user root --grant org.opensuse.yast.system.example.read > /dev/null || :
+polkit-auth --user root --grant org.opensuse.yast.system.example.write > /dev/null || :
 
 %postun
 
@@ -110,15 +102,11 @@ polkit-auth --user root --grant org.opensuse.yast.example.read org.opensuse.yast
 %dir %{webyast_ws_dir}/vendor
 %dir %{webyast_ws_dir}/vendor/plugins
 %dir %{plugin_dir}
-%{plugin_dir}/README
 %{plugin_dir}/Rakefile
-%{plugin_dir}/init.rb
-%{plugin_dir}/install.rb
-%{plugin_dir}/uninstall.rb
 %{plugin_dir}/app
 %{plugin_dir}/config
 %attr(744,root,root) /usr/local/sbin/exampleService.rb
-%attr(644,root,root) /usr/share/PolicyKit/policy/org.opensuse.yast.example.policy
+%attr(644,root,root) /usr/share/PolicyKit/policy/org.opensuse.yast.system.example.policy
 %attr(644,root,root) /etc/dbus-1/system.d/example.service.conf
 %attr(644,root,root) /usr/share/dbus-1/system-services/example.service.service
 %doc COPYING
