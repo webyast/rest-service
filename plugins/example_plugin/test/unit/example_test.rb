@@ -24,7 +24,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../test_helper")
 require File.expand_path( File.join("test","dbus_stub"), RailsParent.parent )
 
 
-class NtpTest < ActiveSupport::TestCase
+class ExampleTest < ActiveSupport::TestCase
 
   def setup
     dbus = DBusStub.new :system, "example.service"
