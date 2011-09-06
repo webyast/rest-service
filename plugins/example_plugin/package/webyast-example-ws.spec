@@ -26,6 +26,7 @@ Source1:        example.service.conf
 Source2:        exampleService.rb
 Source3:        example.service.service
 Source4:        org.opensuse.yast.system.example.policy
+Source5:        wicd-rpmlintrc
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  rubygem-yast2-webservice-tasks rubygem-restility
