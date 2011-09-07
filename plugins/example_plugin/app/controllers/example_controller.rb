@@ -42,7 +42,7 @@ class ExampleController < ApplicationController
     end
 	
     example = Example.find
-    example.content = value
+    example.content = value["content"] || ""
     example.save	
     show
   end

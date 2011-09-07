@@ -38,6 +38,7 @@ class Example < BaseModel::Base
 
     #update is used for single resource models to perform save on model. see BaseModel#save
     def update
+debugger
       dbus_obj.write @content
     end
 
