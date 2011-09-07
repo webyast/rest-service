@@ -29,19 +29,20 @@ class ExampleController < ApplicationController
     example = Example.find
 
     respond_to do |format|
-	    format.xml  { render :xml => example.to_xml}
-	    format.json { render :json => example.to_json }
+      format.xml  { render :xml => example.to_xml}
+      format.json { render :json => example.to_json }
     end
   end
    
   def update
     permission_check "org.opensuse.yast.system.example.write"
-    root = params["example"]
-    if root == nil || root == {} 
+    value = params["example"]
+    if value.empty?
       raise InvalidParameters.new :example => "Missing"
     end
 	
-    example = Example.new(root)
+    example = Example.find
+    example.content = value
     example.save	
     show
   end
