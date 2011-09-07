@@ -30,6 +30,7 @@ class ExampleControllerTest < ActionController::TestCase
     @controller = ExampleController.new
     @request = ActionController::TestRequest.new
     @request.session[:account_id] = 1 # defined in fixtures
+    Example.any_instance.stubs(:load_content).returns("test")
     Example.stubs(:find).returns(Example.new)
     Example.any_instance.stubs(:update).returns(true)
   end
