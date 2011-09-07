@@ -35,7 +35,7 @@ BuildRequires:  webyast-base-ws-testsuite
 BuildRequires:	rubygem-test-unit rubygem-mocha
 
 #
-%define plugin_dir %{webyast_ws_dir}/vendor/plugins/exampleplugin
+%define plugin_dir %{webyast_ws_dir}/vendor/plugins/example
 #
 
 %package testsuite
