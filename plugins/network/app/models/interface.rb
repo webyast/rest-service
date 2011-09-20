@@ -34,7 +34,7 @@ class Interface < BaseModel::Base
       :with => /^#{IPADDR_REGEX}\/(#{IPADDR_REGEX}|[0-9]{1,2})$/
   attr_accessor	:id
   validates_format_of :id, :allow_nil => false,
-      :with => /^[a-zA-Z0-9_-]+$/
+      :with => /^[.a-zA-Z0-9_-]+$/
 
   public
 
