@@ -45,7 +45,7 @@ class Interface < BaseModel::Base
     super args
     @id ||= id
     if bootproto == "dhcp"
-      @ipaddr = @actual_ipaddr = "/"
+      @ipaddr = @actual_ipaddr = ""
       stdout, stderr, status = Open3.popen3("/sbin/ip", "-oneline", "-family", "inet", "address", "show", "dev", id) {
         |stdin, stdout, stderr|
         if match = IP_IPADDR_REGEX.match(stdout.read())
