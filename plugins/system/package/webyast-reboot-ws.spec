@@ -14,8 +14,6 @@ Provides:       WebYaST(org.opensuse.yast.system.system)
 Provides:       yast2-webservice-system = %{version}
 Obsoletes:      yast2-webservice-system < %{version}
 PreReq:         yast2-webservice
-# requires HAL for reboot/shutdown actions
-#Requires:       hal
 # requires ConsoleKit for reboot/shutdown actions
 Requires:       ConsoleKit
 License:        GPL-2.0
@@ -38,10 +36,8 @@ BuildRequires:  webyast-base-ws-testsuite
 # the testsuite is run during build
 BuildRequires:  rubygem-test-unit rubygem-mocha
 
-#
 %define plugin_name system
 %define plugin_dir %{webyast_ws_dir}/vendor/plugins/%{plugin_name}
-#
 
 %package testsuite
 Group:    Productivity/Networking/Web/Utilities
@@ -107,11 +103,6 @@ rm -rf $RPM_BUILD_ROOT
 %posttrans
 # granting all permissions for the web user
 #FIXME don't silently fail
-#polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.hal.power-management.shutdown >& /dev/null || true
-#polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.hal.power-management.shutdown-multiple-sessions >& /dev/null || true
-#polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.hal.power-management.reboot >& /dev/null || true
-#polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.hal.power-management.reboot-multiple-sessions >& /dev/null || true
-
 polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.consolekit.system.stop >& /dev/null || true
 polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.consolekit.system.stop-multiple-users >& /dev/null || true
 polkit-auth --user %{webyast_ws_user} --grant org.freedesktop.consolekit.system.restart >& /dev/null || true
@@ -123,28 +114,14 @@ polkit-auth --user root --grant org.freedesktop.consolekit.system.stop-multiple-
 polkit-auth --user root --grant org.freedesktop.consolekit.system.restart >& /dev/null || true
 polkit-auth --user root --grant org.freedesktop.consolekit.system.restart-multiple-users >& /dev/null || true
 
-#polkit-auth --user root --grant org.freedesktop.hal.power-management.shutdown >& /dev/null || true
-#polkit-auth --user root --grant org.freedesktop.hal.power-management.shutdown-multiple-sessions >& /dev/null || true
-#polkit-auth --user root --grant org.freedesktop.hal.power-management.reboot >& /dev/null || true
-#polkit-auth --user root --grant org.freedesktop.hal.power-management.reboot-multiple-sessions >& /dev/null || true
-
-
-
 %postun
 # don't remove the rights during package update ($1 > 0)
 # see https://fedoraproject.org/wiki/Packaging/ScriptletSnippets#Syntax for details
 if [ $1 -eq 0 ] ; then
-  # discard all configured permissions for the web user
-  #polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.hal.power-management.shutdown >& /dev/null || :
-  #polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.hal.power-management.shutdown-multiple-sessions >& /dev/null || :
-  #polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.hal.power-management.reboot >& /dev/null || :
-  #polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.hal.power-management.reboot-multiple-sessions >& /dev/null || :
-
   polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.consolekit.system.stop >& /dev/null || true
   polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.consolekit.system.stop-multiple-users >& /dev/null || true
   polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.consolekit.system.restart >& /dev/null || true
   polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.consolekit.system.restart-multiple-users >& /dev/null || true
-
 fi
 
 %files
