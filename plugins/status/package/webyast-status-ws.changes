@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Fri Oct 14 10:12:05 UTC 2011 - schubi@suse.com
+
+- resetting cache if the limits have been changed
+- 0.2.13 
+
+-------------------------------------------------------------------
 Wed Aug  3 09:37:35 UTC 2011 - schubi@novell.com
 
 - fixed build for 12.1
