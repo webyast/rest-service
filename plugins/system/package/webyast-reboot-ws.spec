@@ -14,9 +14,8 @@ Provides:       WebYaST(org.opensuse.yast.system.system)
 Provides:       yast2-webservice-system = %{version}
 Obsoletes:      yast2-webservice-system < %{version}
 PreReq:         yast2-webservice
-# requires HAL for reboot/shutdown actions
-Requires:	hal
-License:	GPL-2.0
+Requires:       ConsoleKit
+License:        GPL-2.0
 Group:          Productivity/Networking/Web/Utilities
 URL:            http://en.opensuse.org/Portal:WebYaST
 Autoreqprov:    on
@@ -25,6 +24,8 @@ Release:        0
 Summary:        WebYaST - reboot/shutdown service
 Source:         www.tar.bz2
 Source1:        org.opensuse.yast.system.power-management.policy
+Source2:        01-org.opensuse.yast.system.power-management.pkla
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 BuildRequires:  rubygem-webyast-rake-tasks >= 0.1.3
@@ -33,10 +34,8 @@ BuildRequires:  webyast-base-ws-testsuite
 # the testsuite is run during build
 BuildRequires:	rubygem-test-unit rubygem-mocha
 
-#
 %define plugin_name system
 %define plugin_dir %{webyast_ws_dir}/vendor/plugins/%{plugin_name}
-#
 
 %package testsuite
 Group:    Productivity/Networking/Web/Utilities
@@ -85,6 +84,21 @@ install -m 0644 %SOURCE1 $RPM_BUILD_ROOT/usr/share/PolicyKit/policy/
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+# Policies
+mkdir -p $RPM_BUILD_ROOT/usr/share/PolicyKit/policy
+install -m 0644 %SOURCE1 $RPM_BUILD_ROOT/usr/share/PolicyKit/policy/
+
+%if 0%{?suse_version} == 0 || 0%{?suse_version} > 1130
+# openSUSE-11.4 has policykit-1 which uses .pkla files
+mkdir -p $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d
+install -m 0644 %SOURCE2 $RPM_BUILD_ROOT/var/lib/polkit-1/localauthority/10-vendor.d/
+%if 0%{?suse_version} == 1130
+# openSUSE-11.3+ has policykit-1 which uses .pkla files
+mkdir -p $RPM_BUILD_ROOT/etc/polkit-1/localauthority/10-vendor.d
+install -m 0644 %SOURCE2 $RPM_BUILD_ROOT/etc/polkit-1/localauthority/10-vendor.d/
+%endif
+%endif
+
 # %posttrans is used instead of %post so it ensures the rights are
 # granted even after upgrading from old package (before renaming) (bnc#645310)
 # (see https://fedoraproject.org/wiki/Packaging/ScriptletSnippets#Syntax )
@@ -113,7 +127,7 @@ if [ $1 -eq 0 ] ; then
   polkit-auth --user %{webyast_ws_user} --revoke org.freedesktop.hal.power-management.reboot-multiple-sessions >& /dev/null || :
 fi
 
-%files 
+%files
 
 %defattr(-,root,root)
 %dir %{webyast_ws_dir}
@@ -136,8 +150,18 @@ fi
 
 %doc COPYING
 
+%if 0%{?suse_version} == 0 || 0%{?suse_version} > 1130
+%dir /var/lib/polkit-1/localauthority
+%dir /var/lib/polkit-1/localauthority/10-vendor.d
+%config /var/lib/polkit-1/localauthority/10-vendor.d/*
+%if 0%{?suse_version} == 1130
+%config /etc/polkit-1/localauthority/10-vendor.d/*
+%endif
+%endif
+
 %files testsuite
 %defattr(-,root,root)
 %{plugin_dir}/test
 
 %changelog
+

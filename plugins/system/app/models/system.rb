@@ -1,20 +1,20 @@
 #--
 # Copyright (c) 2009-2010 Novell, Inc.
-# 
+#
 # All Rights Reserved.
-# 
+#
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of version 2 of the GNU General Public License
 # as published by the Free Software Foundation.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, contact Novell, Inc.
-# 
+#
 # To contact Novell about this file by physical or electronic mail,
 # you may find current contact information at www.novell.com
 #++
@@ -34,13 +34,13 @@ class System
     end
 
     def reboot
-	if hal_power_management(:reboot)
+	if consolekit_power_management(:reboot)
 	    @actions[:reboot][:active] = true
 	end
     end
 
     def shutdown
-	if hal_power_management(:shutdown)
+	if consolekit_power_management(:shutdown)
 	    @actions[:shutdown][:active] = true
 	end
     end
@@ -49,7 +49,7 @@ class System
 # private methods
     private
 
-    def hal_power_management(action, params = {})
+  def consolekit_power_management(action, params = {})
 
 	return false unless action == :reboot or action == :shutdown
 
@@ -57,15 +57,11 @@ class System
 	    # connect to the system bus
             # Make a fresh connection, to be able to reboot
             # after DBus is restarted, bnc#582759
-	    system_bus = DBus::SystemBus.send :new # RORSCAN_ITL
-
-	    # get the HAL service
-	    hal_service = system_bus.service('org.freedesktop.Hal') # RORSCAN_ITL
-
-	    computer = hal_service.object('/org/freedesktop/Hal/devices/computer')
-	    computer.introspect
-	    computer.default_iface = 'org.freedesktop.Hal.Device.SystemPowerManagement' # RORSCAN_ITL
-
+      system_bus = DBus::SystemBus.send :new # RORSCAN_ITL
+      consolekit = system_bus.service('org.freedesktop.ConsoleKit') # RORSCAN_ITL
+      system = consolekit.object('/org/freedesktop/ConsoleKit/Manager')
+      system.introspect
+      system.default_iface = 'org.freedesktop.ConsoleKit.Manager'
 	    case action
 
 		when :reboot
@@ -101,3 +97,4 @@ class System
 
 
 end
+
