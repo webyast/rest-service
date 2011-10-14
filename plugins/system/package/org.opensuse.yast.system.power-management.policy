@@ -7,16 +7,13 @@
   <vendor>YaST Webservice Project</vendor>
   <vendor_url>http://en.opensuse.org/YAST</vendor_url>
 
-<!--
-Rights for status
--->
-
   <action id="org.opensuse.yast.system.power-management.reboot">
     <description>Rebooting system</description>
     <message>Authentication is required to reboot the system</message>
     <defaults>
+      <allow_any>no</allow_any>
       <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
+      <allow_active>auth_admin</allow_active>
     </defaults>
   </action>
 
@@ -24,8 +21,9 @@ Rights for status
     <description>Shutdown the system</description>
     <message>Authentication is required to shutdown the system</message>
     <defaults>
+      <allow_any>no</allow_any>
       <allow_inactive>no</allow_inactive>
-      <allow_active>no</allow_active>
+      <allow_active>auth_admin</allow_active>
     </defaults>
   </action>
 
