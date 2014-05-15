@@ -23,9 +23,12 @@
 # Main goal is handle YaPI specific calls and data formats. Provides cleaned
 # and well defined data.
 
+require "open3"
+
 class Interface < BaseModel::Base
 
   IPADDR_REGEX = /([0-9]{1,3}.){3}[0-9]{1,3}/
+  IP_IPADDR_REGEX = /inet (#{IPADDR_REGEX})/
   attr_accessor :bootproto
   validates_inclusion_of :bootproto, :in => ["static","dhcp"]
   attr_accessor :ipaddr
@@ -41,9 +44,17 @@ class Interface < BaseModel::Base
   def initialize(args, id=nil)
     super args
     @id ||= id
-    #@ipaddr ||= "" causes exception if bootproto=dhcp: "Raised resource Invalid exception - #<InvalidParameters: Invalid arguments: {:ipaddr=>:invalid}>"
-    @ipaddr = bootproto == "dhcp" ?  "" : ipaddr
-
+    if bootproto == "dhcp"
+      @ipaddr = @actual_ipaddr = ""
+      stdout, stderr, status = Open3.popen3("/sbin/ip", "-oneline", "-family", "inet", "address", "show", "dev", id) {
+        |stdin, stdout, stderr|
+        if match = IP_IPADDR_REGEX.match(stdout.read())
+          @actual_ipaddr = match[1]
+        end
+      }
+    else
+      @ipaddr = ipaddr
+    end
   end
 
   def self.find( which )

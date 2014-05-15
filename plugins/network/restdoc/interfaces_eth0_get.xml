@@ -3,4 +3,5 @@
   <id>eth0</id>
   <bootproto>dhcp4</bootproto>
   <ipaddr/>
+  <actual_ipaddr>1.2.3.4/24</actual_ipaddr>
 </interface>
